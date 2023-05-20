@@ -57,13 +57,16 @@ class ToolPreferences(AddonPreferences):
     custom_key: BoolProperty(
         default=True,
         name='Development Key',
-        description='',
+        description='alt+Space              Toggle Full Screen'
+                    'ctrl+alt+MiddleMouse   Show Console'
+                    'ctrl+alt+RightMouse    Switch User Translate Interface'
+                    'ctrl+alt+AccentGrave   Save Home File',
         update=update_by_tool_name('custom_key'),
     )
 
     enabled_reload_script: BoolProperty(
         default=True,
-        name='Overload Script Tool',
+        name='ReLoad Script Tool',
         description='',
         update=update_by_tool_name('enabled_reload_script'),
     )
