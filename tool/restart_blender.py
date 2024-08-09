@@ -1,4 +1,3 @@
-import os
 import platform
 
 import bpy
@@ -10,6 +9,7 @@ from ..public import PublicClass
 
 def start_blender():
     import subprocess
+    bpy.ops.wm.save_userpref()
     subprocess.Popen([bpy.app.binary_path])
 
 
