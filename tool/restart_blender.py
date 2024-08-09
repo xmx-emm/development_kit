@@ -8,13 +8,18 @@ from bpy.types import Operator
 from ..public import PublicClass
 
 
+def start_blender():
+    import subprocess
+    subprocess.Popen([bpy.app.binary_path])
+
+
 class RestartBlender(Operator,
                      PublicClass):
     bl_idname = 'wm.restart_blender'
     bl_label = 'Restart Blender'
     bl_description = '''
     Left                - Open a New Blender
-    
+
     alt+Left         -Prompt to save file, Restart blender
     ctrl+Left        - Do not prompt to save files, Restart Blender
     shift+Left      - Open Tow Blender
@@ -29,15 +34,14 @@ class RestartBlender(Operator,
                                      subtype='FACTOR')
 
     @staticmethod
-    def for_open(num, cmd):
+    def for_open(num):
         bpy.ops.wm.save_mainfile()
         for _ in range(num):
-            os.system(cmd)
+            start_blender()
 
     def run_cmd(self, event: bpy.types.Event):
         self.set_event_key(event)
-        cmd = f'start {bpy.app.binary_path}'  # blender.exe path
-        os.system(cmd)
+        start_blender()
         if self.not_key:
             # bpy.ops.wm.window_close()
             ...
@@ -46,12 +50,12 @@ class RestartBlender(Operator,
         elif self.only_ctrl:
             bpy.ops.wm.quit_blender()
         elif self.only_shift:
-            os.system(cmd)
+            start_blender()
             self.os.system(self.os)
         elif self.ctrl_shift_alt and event.oskey:
-            self.for_open(20, cmd)  # blender必炸
+            self.for_open(20)  # blender必炸
         elif self.ctrl_shift_alt:
-            self.for_open(self.open_blender_number, cmd)
+            self.for_open(self.open_blender_number)
         else:
             self.report({'INFO'}, self.bl_description)
 
