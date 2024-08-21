@@ -14,11 +14,9 @@ bl_info = {
 
 def register():
     public.PublicClass.clear_cache()
-
     preferences.register()
 
 
 def unregister():
     public.PublicClass.clear_cache()
-
     preferences.unregister()

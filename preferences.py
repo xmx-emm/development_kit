@@ -1,18 +1,20 @@
 import bpy.utils
-from bpy.props import BoolProperty, IntProperty
+from bpy.props import BoolProperty, IntProperty, StringProperty
 from bpy.types import AddonPreferences
 
 from .public import PublicClass
 from .tool import (auto_reload_script,
                    custom_key,
                    fast_open_addon_code,
-                   restart_blender
+                   restart_blender,
+                   addon_search,
                    )
 
 tool_mod = {'fast_open_addon_code': fast_open_addon_code,
             'enabled_reload_script': auto_reload_script,
             'restart_blender': restart_blender,
             'custom_key': custom_key,
+            'save_addon_search': addon_search
             }
 
 
@@ -63,6 +65,13 @@ class ToolPreferences(AddonPreferences):
                     'ctrl+alt+AccentGrave   Save Home File',
         update=update_by_tool_name('custom_key'),
     )
+    save_addon_search: BoolProperty(
+        default=True,
+        name='Save addon search',
+        description='',
+        update=update_by_tool_name('save_addon_search'),
+    )
+    addon_search: StringProperty()
 
     enabled_reload_script: BoolProperty(
         default=True,
@@ -99,6 +108,7 @@ class ToolPreferences(AddonPreferences):
                   'enabled_reload_script',
                   'restart_blender',
                   'custom_key',
+                  'save_addon_search',
                   ):
             self.layout.prop(self, i)
 
