@@ -1,8 +1,9 @@
 import bpy
 
-owner = object()
 from bpy.app.handlers import persistent
 from ..public import PublicPref
+
+owner = object()
 
 
 def msgbus_callback():
@@ -19,6 +20,7 @@ def msgbus():
     bpy.context.window_manager.addon_search = "test"
 
 
+@persistent
 def load_post(self, context):
     msgbus()
 
@@ -35,4 +37,3 @@ def register():
 
 def unregister():
     bpy.msgbus.clear_by_owner(owner)
-    bpy.app.handlers.load_post.remove(load_post)

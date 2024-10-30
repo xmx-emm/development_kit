@@ -29,7 +29,7 @@ def update_tool(un_register=False):
 
 
 class ToolPreferences(AddonPreferences):
-    bl_idname = PublicClass.G_ADDON_NAME
+    bl_idname = __package__
 
     @staticmethod
     def update_by_tool_name(tool_name):

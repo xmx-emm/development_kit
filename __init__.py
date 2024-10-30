@@ -2,7 +2,7 @@ from . import preferences, public
 
 bl_info = {
     "name": "Development Kit Tool",
-    "version": (1, 0),
+    "version": (1, 0, 0),
     "blender": (4, 0, 0),
     "location": "All over the place",
     "support": "COMMUNITY",

@@ -1,0 +1,11 @@
+schema_version = "1.0.0"
+
+blender_version_min = "4.2.0"
+id = "development_kit"
+license = ["SPDX:GPL-3.0-or-later", ]
+maintainer = "小萌新"
+name = "Development Kit"
+tagline = "Development Kit"
+type = "add-on"
+version = "1.0.0"
+tags = ["Development"]

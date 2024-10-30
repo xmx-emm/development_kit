@@ -1,8 +1,11 @@
 import os
 from functools import cache
-from os.path import dirname, realpath, basename
 
 import bpy
+
+
+def get_pref():
+    return bpy.context.preferences.addons[__package__].preferences
 
 
 class PublicEvent:
@@ -44,22 +47,16 @@ class PublicPref:
     @staticmethod
     @cache
     def pref_():
-        return bpy.context.preferences.addons[PublicClass.G_ADDON_NAME].preferences
+        return get_pref()
 
     @property
     def pref(self):
         return self.pref_()
 
-    @staticmethod
-    def get_addon_pref(addon_name=None):
-        addon = (PublicClass.G_ADDON_NAME if addon_name is None else addon_name)
-        return bpy.context.preferences.addons[addon].preferences
-
 
 class PublicClass(PublicEvent,
                   PublicPref,
                   ):
-    G_ADDON_NAME = basename(dirname(realpath(__file__)))
 
     @staticmethod
     def clear_cache():
