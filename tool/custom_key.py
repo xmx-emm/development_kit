@@ -126,10 +126,10 @@ class CustomKey:
     def unregister(cls):
         for keymap, kmi in cls.register_keymap_items:
             try:
-
                 keymap.keymap_items.remove(kmi)
             except ReferenceError as r:
-                print(r.args)
+                print(r)
+        cls.register_keymap_items.clear()
 
 
 def register():

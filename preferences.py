@@ -45,7 +45,7 @@ class ToolPreferences(AddonPreferences):
         return update
 
     fast_open_addon_code: BoolProperty(
-        default=True,
+        default=False,
         name='Feat Open Addon Script or Folder',
         description='Rewrite the drawing method of the addon section,'
                     ' and display it in the expansion of the addon',
