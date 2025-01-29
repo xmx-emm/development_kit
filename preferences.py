@@ -1,5 +1,5 @@
 import bpy.utils
-from bpy.props import BoolProperty, IntProperty, StringProperty
+from bpy.props import BoolProperty, IntProperty, StringProperty, CollectionProperty
 from bpy.types import AddonPreferences
 
 from .public import PublicClass
@@ -26,6 +26,10 @@ def update_tool(un_register=False):
             tool.unregister()
         elif is_enable:
             tool.register()
+
+
+class ShowExpanded(bpy.types.PropertyGroup):
+    show_expanded: BoolProperty(default=False)
 
 
 class ToolPreferences(AddonPreferences):
@@ -72,6 +76,7 @@ class ToolPreferences(AddonPreferences):
         update=update_by_tool_name('save_addon_search'),
     )
     addon_search: StringProperty()
+    addon_show_expanded: CollectionProperty(type=ShowExpanded)
 
     enabled_reload_script: BoolProperty(
         default=True,
@@ -114,10 +119,12 @@ class ToolPreferences(AddonPreferences):
 
 
 def register():
+    bpy.utils.register_class(ShowExpanded)
     bpy.utils.register_class(ToolPreferences)
     update_tool()
 
 
 def unregister():
     bpy.utils.unregister_class(ToolPreferences)
+    bpy.utils.unregister_class(ShowExpanded)
     update_tool(un_register=True)
