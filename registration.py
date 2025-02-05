@@ -1,5 +1,7 @@
 from . import preferences
 from . import tool
+from .tool.remember_addon_expanded import restore_addons_expanded
+from .tool.remember_addon_search import restore_addon_search
 from .utils import clear_cache
 
 DEVELOPMENT_KEY_MAPS = {
@@ -23,7 +25,11 @@ def register():
     preferences.register()
     tool.register()
 
+    restore_addon_search()
+    restore_addons_expanded()
+
 
 def unregister():
-    preferences.unregister()
+    clear_cache()
     tool.unregister()
+    preferences.unregister()

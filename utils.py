@@ -57,6 +57,35 @@ def clear_cache():
     get_pref.cache_clear()
 
 
+def get_addon_user_dirs():
+    version = bpy.app.version
+    if version >= (3, 6, 0):  # 4.0以上
+        addon_user_dirs = tuple(
+            i for i in (
+                *[os.path.join(pref_p, "addons") for pref_p in bpy.utils.script_paths_pref()],
+                bpy.utils.user_resource('SCRIPTS', path="addons"),
+            )
+            if i
+        )
+    elif bpy.app.version >= (2, 94, 0):  # 3.0 version
+        addon_user_dirs = tuple(
+            i for i in (
+                os.path.join(bpy.context.preferences.filepaths.script_directory, "addons"),
+                bpy.utils.user_resource('SCRIPTS', path="addons"),
+            )
+            if i
+        )
+    else:  # 2.93 version
+        addon_user_dirs = tuple(
+            i for i in (
+                os.path.join(bpy.context.preferences.filepaths.script_directory, "addons"),
+                bpy.utils.user_resource('SCRIPTS', "addons"),
+            )
+            if i
+        )
+    return addon_user_dirs
+
+
 class PublicEvent:
     not_key: bool
     only_ctrl: bool
@@ -69,50 +98,4 @@ class PublicEvent:
 
     def set_event_key(self, event):
         self.not_key, self.only_ctrl, self.only_alt, self.only_shift, self.shift_alt, self.ctrl_alt, self.ctrl_shift, self.ctrl_shift_alt = \
-            self.get_event_key(event)
-
-
-class PublicClass(
-    PublicEvent,
-    PublicPref,
-):
-
-    @property
-    def pref(self):
-        return get_pref()
-
-    @staticmethod
-    def get_addon_is_enabled(module_name, rsc_type=None):
-        if rsc_type is None:
-            return module_name in {ext.module for ext in bpy.context.preferences.addons}
-        elif rsc_type == 'str':
-            return f"'{module_name}'" + " in {ext.module for ext in bpy.context.preferences.addons}"
-
-    @staticmethod
-    def get_addon_user_dirs():
-        version = bpy.app.version
-        if version >= (3, 6, 0):  # 4.0以上
-            addon_user_dirs = tuple(
-                i for i in (
-                    *[os.path.join(pref_p, "addons") for pref_p in bpy.utils.script_paths_pref()],
-                    bpy.utils.user_resource('SCRIPTS', path="addons"),
-                )
-                if i
-            )
-        elif bpy.app.version >= (2, 94, 0):  # 3.0 version
-            addon_user_dirs = tuple(
-                i for i in (
-                    os.path.join(bpy.context.preferences.filepaths.script_directory, "addons"),
-                    bpy.utils.user_resource('SCRIPTS', path="addons"),
-                )
-                if i
-            )
-        else:  # 2.93 version
-            addon_user_dirs = tuple(
-                i for i in (
-                    os.path.join(bpy.context.preferences.filepaths.script_directory, "addons"),
-                    bpy.utils.user_resource('SCRIPTS', "addons"),
-                )
-                if i
-            )
-        return addon_user_dirs
+            get_event_key(event)

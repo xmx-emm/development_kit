@@ -14,8 +14,13 @@ def remember_addon_search():
 def restore_addon_search():
     """delayed set addon search property"""
     pref = get_pref()
-    bpy.context.window_manager.addon_search = pref.addon_search
-    tag_redraw()
+
+    def restore():
+        bpy.context.window_manager.addon_search = pref.addon_search
+        tag_redraw()
+
+    if pref.activate_remember_addon_search:
+        bpy.app.timers.register(restore, first_interval=1, persistent=True)
 
 
 def addon_search_msgbus():
@@ -38,8 +43,6 @@ def register():
     addon_search_msgbus()
 
     bpy.app.handlers.load_post.append(load_post_handler)
-
-    bpy.app.timers.register(restore_addon_search, first_interval=1, persistent=True)
 
 
 def unregister():

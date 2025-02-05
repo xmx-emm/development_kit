@@ -2,7 +2,7 @@ import platform
 
 import bpy
 
-from ..public import PublicClass
+from ..utils import PublicEvent
 
 
 def start_blender():
@@ -12,8 +12,10 @@ def start_blender():
     subprocess.Popen([bpy.app.binary_path])
 
 
-class RestartBlender(bpy.types.Operator,
-                     PublicClass):
+class RestartBlender(
+    bpy.types.Operator,
+    PublicEvent,
+):
     bl_idname = "wm.restart_blender"
     bl_label = "Restart Blender"
     bl_description = """
@@ -87,6 +89,7 @@ def register():
 
 
 def unregister():
-    bpy.utils.unregister_class(RestartBlender)
+    if getattr(RestartBlender, "is_registered", False):
+        bpy.utils.unregister_class(RestartBlender)
     if hasattr(bpy.types, "TOPBAR_MT_editor_menus"):
         bpy.types.TOPBAR_MT_editor_menus.remove(draw_restart_blender_top_bar)

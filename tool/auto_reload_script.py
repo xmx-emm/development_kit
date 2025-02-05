@@ -94,4 +94,5 @@ def register():
 
 def unregister():
     bpy.types.TEXT_HT_footer.remove(draw_text_header)
-    bpy.utils.unregister_class(UnlinkAllScript)
+    if getattr(UnlinkAllScript, "is_registered", False):
+        bpy.utils.unregister_class(UnlinkAllScript)

@@ -9,7 +9,7 @@ import addon_utils
 import bpy
 from bl_ui.space_userpref import USERPREF_PT_addons
 
-from ..public import PublicClass
+from ..utils import get_addon_user_dirs
 
 
 class AddonDraw(bpy.types.USERPREF_PT_addons):
@@ -36,7 +36,7 @@ class AddonDraw(bpy.types.USERPREF_PT_addons):
         prefs = context.preferences
         used_ext = {ext.module for ext in prefs.addons}
 
-        addon_user_dirs = PublicClass.get_addon_user_dirs()
+        addon_user_dirs = get_addon_user_dirs()
         # Development option for 2.8x, don't show users bundled addons
         # unless they have been updated for 2.8x.
         # Developers can turn them on with '--debug'
