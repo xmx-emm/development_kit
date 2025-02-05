@@ -1,6 +1,4 @@
-from . import preferences, public
-from .tool.addon_search import remember_expanded
-
+from . import registration
 bl_info = {
     "name": "Development Kit Tool",
     "version": (1, 0, 1),
@@ -14,11 +12,8 @@ bl_info = {
 
 
 def register():
-    public.PublicClass.clear_cache()
-    preferences.register()
+    registration.register()
 
 
 def unregister():
-    remember_expanded()
-    public.PublicClass.clear_cache()
-    preferences.unregister()
+    registration.unregister()

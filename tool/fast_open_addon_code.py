@@ -1,5 +1,10 @@
 import os
 
+"""TODO
+This feature seems to be unused and will not be used temporarily
+And as Blender iterates, unpredictable errors may occur
+"""
+
 import addon_utils
 import bpy
 from bl_ui.space_userpref import USERPREF_PT_addons
