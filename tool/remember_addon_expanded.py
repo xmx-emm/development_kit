@@ -23,9 +23,6 @@ def remember_addons_expanded():
 
     bpy.ops.wm.save_userpref()
 
-    expanded_list = [addon.name for addon in pref.addon_show_expanded if addon.show_expanded]
-    print("remember_addons_expanded", expanded_list)
-
 
 def restore_addons_expanded():
     def restore():
@@ -34,7 +31,6 @@ def restore_addons_expanded():
         if pref.activate_remember_addon_expanded:
             expanded_list = [addon.name for addon in pref.addon_show_expanded if addon.show_expanded]
 
-            print("expanded_list", expanded_list)
             import addon_utils
             addon_utils.modules_refresh()
             for key in addon_keys():

@@ -1,4 +1,4 @@
-from ..utils import get_keymap
+from ..keymap import get_keymap
 
 register_keymap_items = []
 

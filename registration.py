@@ -1,5 +1,6 @@
 from . import preferences
 from . import tool
+from . import translation
 from .tool.remember_addon_expanded import restore_addons_expanded
 from .tool.remember_addon_search import restore_addon_search
 from .utils import clear_cache
@@ -27,9 +28,11 @@ def register():
 
     restore_addon_search()
     restore_addons_expanded()
+    translation.register()
 
 
 def unregister():
     clear_cache()
     tool.unregister()
     preferences.unregister()
+    translation.unregister()

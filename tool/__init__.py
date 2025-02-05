@@ -42,7 +42,6 @@ def update_by_tool_name(tool_name: str):
         for tool in tool_mods:
             name = tool.__name__.split(".")[-1]
             if name == tool_name:
-                print("udpate_tool", name, tool)
                 if prop:
                     tool.register()
                 elif prop is False:

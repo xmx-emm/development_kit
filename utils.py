@@ -28,17 +28,6 @@ def get_event_key(event: bpy.types.Event):
     return not_key, only_ctrl, only_alt, only_shift, shift_alt, ctrl_alt, ctrl_shift, ctrl_shift_alt
 
 
-def get_keymap(keymap_name) -> "bpy.types.KeyMap":
-    kc = bpy.context.window_manager.keyconfigs
-    addon = kc.addon
-    keymap = kc.default.keymaps.get(keymap_name, None)
-    return addon.keymaps.new(
-        keymap_name,
-        space_type=keymap.space_type,
-        region_type=keymap.region_type
-    )
-
-
 def tag_redraw():
     for area in bpy.context.screen.areas:
         area.tag_redraw()

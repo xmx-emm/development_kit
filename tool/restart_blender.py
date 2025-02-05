@@ -19,14 +19,21 @@ class RestartBlender(
     bl_idname = "wm.restart_blender"
     bl_label = "Restart Blender"
     bl_description = """
-    Left                - Open a New Blender
-
-    alt+Left         -Prompt to save file, Restart blender
-    ctrl+Left        - Do not prompt to save files, Restart Blender
-    shift+Left      - Open Tow Blender
-
-    ctrl+alt+shift+Left Loop Open Blender, dedicated for explosion"""
+    """
     bl_options = {"REGISTER"}
+
+    @classmethod
+    def description(cls, context, properties):
+        from ..translation import translate_lines_text
+        return translate_lines_text(
+            "",
+            "Click           Open a New Blender",
+            "Alt         Prompt to save file, Restart Blender",
+            "Ctrl         Do not prompt to save files, Restart Blender",
+            "Shift       Open Tow Blender",
+            "",
+            "Ctrl+Alt+Shift Loop Open Blender, dedicated for explosion",
+        )
 
     open_blender_number: bpy.props.IntProperty(
         name="Open Blender Number",
