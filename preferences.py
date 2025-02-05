@@ -1,130 +1,88 @@
-import bpy.utils
-from bpy.props import BoolProperty, IntProperty, StringProperty, CollectionProperty
-from bpy.types import AddonPreferences
+import bpy
 
-from .public import PublicClass
-from .tool import (auto_reload_script,
-                   custom_key,
-                   fast_open_addon_code,
-                   restart_blender,
-                   addon_search,
-                   )
-
-tool_mod = {'fast_open_addon_code': fast_open_addon_code,
-            'enabled_reload_script': auto_reload_script,
-            'restart_blender': restart_blender,
-            'custom_key': custom_key,
-            'save_addon_search': addon_search
-            }
+from .tool import update_by_tool_name
+from .tool.auto_reload_script import AutoReloadScriptPreferences
 
 
-def update_tool(un_register=False):
-    pref = PublicClass.pref_()
-    for prop_name, tool in tool_mod.items():
-        is_enable = getattr(pref, prop_name, False)
-        if un_register or (not is_enable):
-            tool.unregister()
-        elif is_enable:
-            tool.register()
+class ShowExpandedItem(bpy.types.PropertyGroup):
+    """Used to record the expansion status of the addon"""
+    show_expanded: bpy.props.BoolProperty(default=False)
 
 
-class ShowExpanded(bpy.types.PropertyGroup):
-    show_expanded: BoolProperty(default=False)
-
-
-class ToolPreferences(AddonPreferences):
+class ToolPreferences(bpy.types.AddonPreferences, AutoReloadScriptPreferences):
     bl_idname = __package__
 
-    @staticmethod
-    def update_by_tool_name(tool_name):
-        """Change prop update tool"""
+    activate_auto_reload_script: bpy.props.BoolProperty(
+        default=True,
+        name="ReLoad Script",
+        description="Automatically reload scripts and run them",
+        update=update_by_tool_name("auto_reload_script"),
+    )
 
-        def update(self, context):
-            prop = getattr(self, tool_name, None)
-            if prop:
-                tool_mod[tool_name].register()
-            elif prop is False:
-                tool_mod[tool_name].unregister()
+    activate_development_key: bpy.props.BoolProperty(
+        default=True,
+        name="Development Keymap",
+        description="Commonly used Keymaps to speed up the development process",
+        update=update_by_tool_name("development_key"),
+    )
 
-        return update
-
-    fast_open_addon_code: BoolProperty(
+    activate_open_addon_script: bpy.props.BoolProperty(
         default=False,
-        name='Feat Open Addon Script or Folder',
-        description='Rewrite the drawing method of the addon section,'
-                    ' and display it in the expansion of the addon',
-        update=update_by_tool_name('fast_open_addon_code'), )
-    restart_blender: BoolProperty(
-        default=True,
-        name='Restart Blender',
-        description='Enabled Multiple Blender,or Restart Blender',
-        update=update_by_tool_name('restart_blender'),
+        name="Addon Open",
+        description="Rewrite the drawing method of the addon section, and display it in the expansion of the addon",
+        update=update_by_tool_name("open_addon_script")
     )
-    custom_key: BoolProperty(
+    activate_remember_addon_expanded: bpy.props.BoolProperty(
         default=True,
-        name='Development Key',
-        description='alt+Space              Toggle Full Screen'
-                    'ctrl+alt+MiddleMouse   Show Console'
-                    'ctrl+alt+RightMouse    Switch User Translate Interface'
-                    'ctrl+alt+AccentGrave   Save Home File',
-        update=update_by_tool_name('custom_key'),
-    )
-    save_addon_search: BoolProperty(
-        default=True,
-        name='Save addon search',
-        description='',
-        update=update_by_tool_name('save_addon_search'),
-    )
-    addon_search: StringProperty()
-    addon_show_expanded: CollectionProperty(type=ShowExpanded)
-
-    enabled_reload_script: BoolProperty(
-        default=True,
-        name='ReLoad Script Tool',
-        description='',
-        update=update_by_tool_name('enabled_reload_script'),
+        name="Remember addon expanded",
+        description="Record the expanded Addon and restore it the next time you open Blender",
+        update=update_by_tool_name("remember_addon_expanded"),
     )
 
-    # Auto Reload
-    def update_reload_script(self, context):
-        text = context.space_data.text
-        try:
-            bpy.ops.text.reload()
-            if self.auto_run_script:
-                try:
-                    bpy.ops.text.run_script()
-                    print(f'Reload Script {text.name},and Run Script!!!')
-                except Exception as e:
-                    print('Run Error!!', e.args)
-        except Exception as e:
-            print(f'Reload Script {text.name} Error,Perhaps this script does not exist', e.args)
-            self.auto_reload_script = False
+    activate_remember_addon_search: bpy.props.BoolProperty(
+        default=True,
+        name="Remember addon search",
+        description="Record the Addon search and restore it the next time you start Blender",
+        update=update_by_tool_name("remember_addon_search"),
+    )
 
-    reload_script_number: IntProperty(default=True,
-                                      update=update_reload_script)
-    auto_run_script: BoolProperty(name='Auto run script switch, only when auto reload script is turned on can it run',
-                                  options={'SKIP_SAVE'},
-                                  default=False)
+    activate_restart_blender: bpy.props.BoolProperty(
+        default=True,
+        name="Restart Blender",
+        description="Enable multiple Blenders or restart Blender, please be careful to save the edit file!!!!",
+        update=update_by_tool_name("restart_blender"),
+    )
 
-    auto_reload_script: BoolProperty(name="Whether to automatically reload scripts", default=True, )
+    # Other Property
+    addon_show_expanded: bpy.props.CollectionProperty(type=ShowExpandedItem)
+    addon_search: bpy.props.StringProperty(default="")
 
     def draw(self, context):
-        for i in ('fast_open_addon_code',
-                  'enabled_reload_script',
-                  'restart_blender',
-                  'custom_key',
-                  'save_addon_search',
-                  ):
-            self.layout.prop(self, i)
+        from .keymap import draw_key
+
+        column = self.layout.column(align=True)
+        for prop in self.bl_rna.properties:
+            if prop.identifier.startswith("activate_"):
+                self.draw_prop(column, prop.identifier)
+
+        if self.activate_development_key:
+            column.separator()
+            col = column.box().column(align=True)
+            col.label(text="Keymap")
+            draw_key(col)
+
+    def draw_prop(self, layout, identifier) -> None:
+        split = layout.row(align=True).split(factor=.2, align=True)
+        prop = self.bl_rna.properties[identifier]
+        split.prop(self, identifier, toggle=True, expand=True)
+        split.label(text=prop.description)
 
 
 def register():
-    bpy.utils.register_class(ShowExpanded)
+    bpy.utils.register_class(ShowExpandedItem)
     bpy.utils.register_class(ToolPreferences)
-    update_tool()
 
 
 def unregister():
     bpy.utils.unregister_class(ToolPreferences)
-    bpy.utils.unregister_class(ShowExpanded)
-    update_tool(un_register=True)
+    bpy.utils.unregister_class(ShowExpandedItem)
