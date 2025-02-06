@@ -20,7 +20,7 @@ zh_HANS = {
     "Click           Open a New Blender": "左键         打开一个新的Blender",
     "Alt         Prompt to save file, Restart Blender": "Alt          提示保存文件,重启Blender",
     "Ctrl         Do not prompt to save files, Restart Blender": "Ctrl         不提示保存文件,重启Blender",
-    "Shift       Open Tow Blender": "Shift       打开两个Blender",
+    "Shift       Open Two Blender": "Shift       打开两个Blender",
     "Ctrl+Alt+Shift Loop Open Blender, dedicated for explosion": "Ctrl+Alt+Shift 循环打开Blender,爆炸专用",
 }
 

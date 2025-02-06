@@ -30,7 +30,7 @@ class RestartBlender(
             "Click           Open a New Blender",
             "Alt         Prompt to save file, Restart Blender",
             "Ctrl         Do not prompt to save files, Restart Blender",
-            "Shift       Open Tow Blender",
+            "Shift       Open Two Blender",
             "",
             "Ctrl+Alt+Shift Loop Open Blender, dedicated for explosion",
         )
@@ -60,7 +60,6 @@ class RestartBlender(
             bpy.ops.wm.quit_blender()
         elif self.only_shift:
             start_blender()
-            self.os.system(self.os)
         elif self.ctrl_shift_alt and event.oskey:
             self.for_open(20)  # blender必炸
         elif self.ctrl_shift_alt:
