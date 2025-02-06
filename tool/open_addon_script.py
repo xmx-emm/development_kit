@@ -284,7 +284,7 @@ def draw_addon_4_2_or_above(
 ):
     from bl_pkg.bl_extension_ui import (
         ADDON_TYPE_LEGACY_USER, ADDON_TYPE_LEGACY_CORE, ADDON_TYPE_LEGACY_OTHER, ADDON_TYPE_EXTENSION,
-        USE_SHOW_ADDON_TYPE_AS_TEXT,addon_type_name,
+        USE_SHOW_ADDON_TYPE_AS_TEXT, addon_type_name, domain_extract_from_url
     )
 
     from bpy.app.translations import (
