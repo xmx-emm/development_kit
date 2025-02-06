@@ -26,12 +26,6 @@ class ToolPreferences(bpy.types.AddonPreferences, AutoReloadScriptPreferences):
         update=update_by_tool_name("development_key"),
     )
 
-    activate_open_addon_script: bpy.props.BoolProperty(
-        default=False,
-        name="Addon Open",
-        description="Rewrite the drawing method of the addon section, and display it in the expansion of the addon",
-        update=update_by_tool_name("open_addon_script")
-    )
     activate_remember_addon_expanded: bpy.props.BoolProperty(
         default=True,
         name="Remember addon expanded",
@@ -68,7 +62,7 @@ class ToolPreferences(bpy.types.AddonPreferences, AutoReloadScriptPreferences):
         if self.activate_development_key:
             column.separator()
             col = column.box().column(align=True)
-            col.label(text="Keymap")
+            col.label(text="Development Keymap")
             draw_key(col)
 
     def draw_prop(self, layout, identifier) -> None:
