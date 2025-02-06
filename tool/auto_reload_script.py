@@ -57,7 +57,6 @@ def draw_text_header(self, context):
 
 class AutoReloadScriptPreferences:
     def update_reload_script(self, context):
-        print("\n\n")
         text = context.space_data.text
         try:
             bpy.ops.text.reload()
@@ -75,6 +74,7 @@ class AutoReloadScriptPreferences:
         except Exception as e:
             print(f"Reload Script Error,Perhaps this script does not exist  {text.name} ", e.args)
             self.auto_reload_script = False
+        print("\n")
 
     reload_script_number: bpy.props.IntProperty(default=-1, update=update_reload_script)
     auto_run_script: bpy.props.BoolProperty(

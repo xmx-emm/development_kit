@@ -6,6 +6,8 @@ from ..utils import get_pref, addon_keys
 def remember_addons_expanded():
     pref = get_pref()
 
+    if not pref.activate_remember_addon_expanded:
+        return
     import addon_utils
     addon_utils.modules_refresh()
 
