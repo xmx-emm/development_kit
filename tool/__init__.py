@@ -1,7 +1,6 @@
 from . import (
     auto_reload_script,
     development_key,
-    open_addon_script,
     remember_addon_expanded,
     remember_addon_search,
     restart_blender,
@@ -10,7 +9,6 @@ from . import (
 tool_mods = {
     auto_reload_script,
     development_key,
-    open_addon_script,
     remember_addon_expanded,
     remember_addon_search,
     restart_blender,
