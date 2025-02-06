@@ -5,11 +5,32 @@ import bpy
 from ..utils import PublicEvent
 
 
-def start_blender():
-    """Create a new Blender thread through subprocess"""
+def start_blender(step=1):
+    """Create a new Blender thread through subprocess
+
+    offset
+    
+    -p, --window-geometry <sx> <sy> <w> <h>
+        Open with lower left corner at <sx>, <sy> and width and height as <w>, <h>.
+    https://docs.blender.org/manual/en/4.3/advanced/command_line/arguments.html#window-options
+    """
     import subprocess
     bpy.ops.wm.save_userpref()
-    subprocess.Popen([bpy.app.binary_path])
+
+    args = [bpy.app.binary_path, ]
+
+    window = bpy.context.window
+    offset = step * 20
+
+    args.append("-p")
+    args.extend((
+        str(window.x + offset),
+        str(window.y - offset),
+        str(window.width),
+        str(window.height),
+    ))
+
+    subprocess.Popen(args)
 
 
 class RestartBlender(
@@ -45,8 +66,8 @@ class RestartBlender(
 
     @staticmethod
     def for_open(num):
-        for _ in range(num):
-            start_blender()
+        for step in range(num):
+            start_blender(step + 1)
 
     def run_cmd(self, event: bpy.types.Event):
         self.set_event_key(event)
