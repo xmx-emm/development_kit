@@ -8,8 +8,6 @@ zh_HANS = {
     "ReLoad Script": "重载脚本",
     "Development Keymap": "开发快捷键",
     "Commonly used Keymaps to speed up the development process": "常用可以加快开发流程的快捷键",
-    "Addon Open": "打开插件",
-    "Rewrite the drawing method of the addon section, and display it in the expansion of the addon": "重写插件部分的绘制方法,并在插件的扩展是显示打开脚本文件与文件夹按钮",
     "Remember addon expanded": "记住插件展开",
     "Record the expanded Addon and restore it the next time you open Blender": "将已展开的插件记录下来,在下次打开Blender时恢复",
     "Remember addon search": "记住插件搜索",
@@ -21,7 +19,7 @@ zh_HANS = {
     "Alt         Prompt to save file, Restart Blender": "Alt          提示保存文件,重启Blender",
     "Ctrl         Do not prompt to save files, Restart Blender": "Ctrl         不提示保存文件,重启Blender",
     "Shift       Open Two Blender": "Shift       打开两个Blender",
-    "Ctrl+Alt+Shift Loop Open Blender, dedicated for explosion": "Ctrl+Alt+Shift 循环打开Blender,爆炸专用",
+    "Ctrl+Alt+Shift Open 5 Blender, dedicated for explosion": "Ctrl+Alt+Shift 打开5个Blender,爆炸专用",
 }
 
 

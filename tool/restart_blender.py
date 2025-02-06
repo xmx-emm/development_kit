@@ -32,7 +32,7 @@ class RestartBlender(
             "Ctrl         Do not prompt to save files, Restart Blender",
             "Shift       Open Two Blender",
             "",
-            "Ctrl+Alt+Shift Loop Open Blender, dedicated for explosion",
+            "Ctrl+Alt+Shift Open 5 Blender, dedicated for explosion",
         )
 
     open_blender_number: bpy.props.IntProperty(
@@ -45,7 +45,6 @@ class RestartBlender(
 
     @staticmethod
     def for_open(num):
-        bpy.ops.wm.save_mainfile()
         for _ in range(num):
             start_blender()
 
@@ -61,9 +60,9 @@ class RestartBlender(
         elif self.only_shift:
             start_blender()
         elif self.ctrl_shift_alt and event.oskey:
-            self.for_open(20)  # blender必炸
+            self.for_open(self.open_blender_number)  # blender必炸
         elif self.ctrl_shift_alt:
-            self.for_open(self.open_blender_number)
+            self.for_open(5)
         else:
             self.report({"INFO"}, self.bl_description)
 
