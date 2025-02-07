@@ -7,5 +7,5 @@ maintainer = "小萌新"
 name = "Development Kit"
 tagline = "Development Kit"
 type = "add-on"
-version = "1.0.2"
+version = "1.0.3"
 tags = ["Development"]

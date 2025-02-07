@@ -1,7 +1,7 @@
 from . import registration
 bl_info = {
     "name": "Development Kit Tool",
-    "version": (1, 0, 2),
+    "version": (1, 0, 3),
     "blender": (4, 0, 0),
     "location": "All over the place",
     "support": "COMMUNITY",
