@@ -84,4 +84,3 @@ def draw_key(layout: bpy.types.UILayout):
             if not is_find:
                 column = layout.column(align=True)
                 column.label(text="Not Found Keymap, Please check the shortcut keys that have been changed")
-                draw_restore_keymap_button(column)
